@@ -1,14 +1,20 @@
-FROM rawmind/alpine-tools:0.3.4-7
-MAINTAINER Raul Sanchez <rawmind@gmail.com>
+# Use robtimmer/alpine-tools as base image
+FROM robtimmer/alpine-tools
 
+# Set maintainer info
+MAINTAINER Rob Timmer <rob@robtimmer.com>
+
+# Define environment variables
 ENV SERVICE_ARCHIVE=/opt/rancher-tools.tgz \
     GOMAXPROCS=2 \
     GOROOT=/usr/lib/go \
     GOPATH=/opt/src \
     GOBIN=/gopath/bin 
 
-# Add files
+# Add root files to the image root
 ADD root /
+
+# Build and install image specifics
 RUN apk add --no-cache go git && \
     mkdir -p ${SERVICE_VOLUME}/scripts; cd /opt/src && \
     go get && \
